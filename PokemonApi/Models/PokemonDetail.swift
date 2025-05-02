@@ -31,13 +31,13 @@ struct PokemonDetail: Decodable {
         let other: Other
 
         struct Other: Decodable {
-            let officialArtwork: OfficialArtwork
+            let home: Home
 
             enum CodingKeys: String, CodingKey {
-                case officialArtwork = "official-artwork"
+                case home = "home"
             }
 
-            struct OfficialArtwork: Decodable {
+            struct Home: Decodable {
                 let front_default: URL
             }
         }

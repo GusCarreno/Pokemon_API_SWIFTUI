@@ -22,40 +22,72 @@ struct PokemonDetailView: View {
         ScrollView {
             if let detail = viewModel.detail {
                 VStack(spacing: 16) {
-
-                    AsyncImage(url: detail.sprites.other.officialArtwork.front_default) { image in
-                        image.resizable()
-                    } placeholder: {
-                        ProgressView()
-                    }
-                    .scaledToFit()
-                    .frame(height: 200)
+                    ZStack {
+                        // Background for the image
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(Color.green)
+                            .padding(.top,90)
+                            .padding(.horizontal)
+                        
+                        AsyncImage(url: detail.sprites.other.home.front_default) { image in
+                                image.resizable()
+                                    .scaledToFit()
+                                    .frame(height: 180)
+                            } placeholder: {
+                                ProgressView()
+                                    .frame(height: 180)
+                            }
+                            .padding()
+                    
 
                     HStack {
                         ForEach(detail.types, id: \.type.name) { type in
                             Text(type.type.name.capitalized)
-                                .padding(8)
-                                .background(Color.green.opacity(0.2))
-                                .cornerRadius(12)
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 8)
+                                .foregroundColor(typeColor(typeName: type.type.name)) // Use the typeColor function
+                                .background(Color(hex: "#F8F8F8"))
+                                .cornerRadius(20)
+                                .shadow(color: Color.black.opacity(0.2), radius: 4, x: 0, y: 2)
                         }
+                      }
+                      .padding(.top, 200)
                     }
-
+                }
                     HStack {
-                        VStack {
-                            Text("\(Double(detail.weight) / 10, specifier: "%.1f") kg")
-                                .bold()
-                            Text("Peso")
-                                .font(.caption)
+                        HStack {
+                            Image("peso")
+                                .foregroundColor(.blue)
+                            VStack {
+                                Text("\(Double(detail.weight) / 10, specifier: "%.1f") kg")
+                                    .bold()
+                                    .foregroundColor(Color(hex: "#01426A"))
+                                Text("Peso")
+                                    .font(.caption)
+                                    .foregroundColor(Color(hex: "#2C85BC"))
+                            }
                         }
-                        Spacer()
+                        .frame(width: 150) // Adjust as needed for spacing
+                        Divider()
+                        HStack {
+                            Image("altura")
+                                .foregroundColor(.blue) // Use the blue color from the image
                         VStack {
+                          
                             Text("\(Double(detail.height) / 10, specifier: "%.1f") m")
                                 .bold()
+                                .foregroundColor(Color(hex: "#01426A"))
                             Text("Altura")
                                 .font(.caption)
+                                .foregroundColor(Color(hex: "#2C85BC"))
                         }
+                        }
+                        .frame(width: 150) // Adjust as needed for spacing
                     }
-                    .padding(.horizontal, 32)
+                    .padding(5) // Add padding for spacing around the content
+                    .background(Color.white) // White background for the container
+                    .cornerRadius(10) // Rounded corners for the container
+                    .shadow(radius: 2) // Subtle shadow
 
                     Text(viewModel.spanishFlavorText)
                         .font(.body)
@@ -70,16 +102,30 @@ struct PokemonDetailView: View {
                             HStack {
                                 Text(stat.stat.name.capitalized)
                                     .frame(width: 100, alignment: .leading)
-                                ProgressView(value: Float(stat.base_stat), total: 100)
-                                    .accentColor(.green)
-                                    .frame(height: 10)
+                                ZStack(alignment: .leading) {
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .fill(Color(hex: "#65D498").opacity(0.5))
+                                        .frame(height: 10)
+                                    
+                                    // Foreground for the ProgressView with gradient
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .fill(
+                                            LinearGradient(
+                                                gradient: Gradient(colors: [Color(hex: "#00A500"), Color(hex: "#009444")]), // Green gradient
+                                                startPoint: .leading,
+                                                endPoint: .trailing
+                                            )
+                                        )
+                                        .frame(width: CGFloat(stat.base_stat) / 100 * 160, height: 10)
+                                        .animation(.default, value: stat.base_stat)
+                                }
+                                .frame(width: 160, height: 10)
                                 Text(String(format: "%03d", stat.base_stat))
                                     .frame(width: 40, alignment: .trailing)
                             }
                         }
                     }
                     .padding()
-                }
             } else if viewModel.isLoading {
                 ProgressView("Cargando…")
             } else {
@@ -106,6 +152,7 @@ struct PokemonDetailView: View {
                     .foregroundColor(Color(hex: "#AAAAAA"))
             }
         }
-        .navigationBarBackButtonHidden(true) // Hide the default back button
+        .navigationBarBackButtonHidden(true)
+        .background(Color(hex: "#F8F8F8"))
     }
 }

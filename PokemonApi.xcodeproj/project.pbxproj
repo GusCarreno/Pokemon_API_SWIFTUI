@@ -34,6 +34,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Utils/Extensions.swift,
+				Utils/Globals.swift,
 				"Utils/Montserrat-VariableFont_wght.ttf",
 			);
 			target = CC9FF1A62DC449A700A99426 /* PokemonApiTests */;
@@ -42,6 +43,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Utils/Extensions.swift,
+				Utils/Globals.swift,
 				"Utils/Montserrat-VariableFont_wght.ttf",
 			);
 			target = CC9FF1B02DC449A700A99426 /* PokemonApiUITests */;
