@@ -47,5 +47,3 @@ extension Color {
         self = .gray // default
     }
 }
-
-extension URLSession: URLSessionProtocol {}

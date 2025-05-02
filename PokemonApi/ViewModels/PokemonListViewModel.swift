@@ -14,14 +14,14 @@ class PokemonListViewModel: ObservableObject {
     @Published var errorMessage: String?
 
     let baseURL = "https://pokeapi.co/api/v2/pokemon"
-    let session: URLSession
+    private let session: URLSessionProtocol
 
-    init(session: URLSession = .shared) {
-            self.session = session
-            Task {
-                await fetchPokemonList()
-            }
-        }
+       init(session: URLSessionProtocol = URLSession.shared) {
+           self.session = session
+           Task {
+               await fetchPokemonList()
+           }
+       }
 
     func fetchPokemonList() async {
         isLoading = true
