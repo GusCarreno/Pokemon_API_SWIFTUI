@@ -1,5 +1,12 @@
+//
+//  PokemonListViewModelTests.swift
+//
+//  Created by Mr. G Carreño on 1/5/25.
+//
+
 import XCTest
-@testable import YourAppModuleName
+@testable import PokemonApi
+import Foundation
 
 final class PokemonListViewModelTests: XCTestCase {
     func testFetchPokemonListSuccess() async {

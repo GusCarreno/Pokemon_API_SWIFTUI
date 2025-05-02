@@ -1,3 +1,12 @@
+//
+//  PokemonListItem.swift
+//  MockURLSession
+//
+//  Created by Mr. G Carreño on 1/5/25.
+//
+
+import Foundation
+
 class MockURLSession: URLSessionProtocol {
     let success: Bool
 
@@ -25,4 +34,8 @@ class MockURLSession: URLSessionProtocol {
             throw URLError(.badServerResponse)
         }
     }
+}
+
+protocol URLSessionProtocol {
+    func data(from url: URL) async throws -> (Data, URLResponse)
 }

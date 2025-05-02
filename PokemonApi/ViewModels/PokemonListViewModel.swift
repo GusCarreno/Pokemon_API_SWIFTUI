@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftUI
 
 @MainActor
 class PokemonListViewModel: ObservableObject {
@@ -15,12 +14,14 @@ class PokemonListViewModel: ObservableObject {
     @Published var errorMessage: String?
 
     let baseURL = "https://pokeapi.co/api/v2/pokemon"
+    let session: URLSession
 
-    init() {
-        Task {
-            await fetchPokemonList()
+    init(session: URLSession = .shared) {
+            self.session = session
+            Task {
+                await fetchPokemonList()
+            }
         }
-    }
 
     func fetchPokemonList() async {
         isLoading = true

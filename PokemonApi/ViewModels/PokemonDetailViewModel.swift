@@ -5,7 +5,9 @@
 //  Created by Mr. G Carreño on 1/5/25.
 //
 
+import Foundation
 
+@MainActor
 class PokemonDetailViewModel: ObservableObject {
     @Published var detail: PokemonDetail?
     @Published var species: PokemonSpecies?
