@@ -1,4 +1,12 @@
-// PokemonDetail.swift
+//
+//  PokemonListItem.swift
+//  PokemonApi
+//
+//  Created by Mr. G Carreño on 1/5/25.
+//
+
+import Foundation
+
 struct PokemonDetail: Decodable {
     struct TypeEntry: Decodable {
         struct TypeInfo: Decodable { let name: String }
