@@ -1,31 +1,28 @@
-//
-//  PokemonListViewModelTests.swift
-//  PokemonApi
-//
-//  Created by Mr. G Carreño on 1/5/25.
-//
-
-
 import XCTest
-@testable import PokemonApi
-import Foundation
+@testable import YourAppModuleName
 
 final class PokemonListViewModelTests: XCTestCase {
-
     func testFetchPokemonListSuccess() async {
-        let viewModel = await PokemonListViewModel()
-        await viewModel.fetchPokemonList()
+        let mockSession = MockURLSession(success: true)
+        let viewModel = PokemonListViewModel(session: mockSession)
 
-       // XCTAssertFalse(viewModel.pokemonList.isEmpty, "Pokemon list should not be empty after fetching.")
-       // XCTAssertNil(viewModel.errorMessage)
+        // Wait a bit for async init
+        try? await Task.sleep(nanoseconds: 500_000_000)
+
+        XCTAssertFalse(viewModel.isLoading)
+        XCTAssertNil(viewModel.errorMessage)
+        XCTAssertEqual(viewModel.pokemonList.count, 2)
+        XCTAssertEqual(viewModel.pokemonList.first?.name, "bulbasaur")
     }
 
-    func testInvalidURL() async {
-        let viewModel = await PokemonListViewModel()
-        viewModel.baseURL = "invalid-url" 
-        await viewModel.fetchPokemonList()
+    func testFetchPokemonListFailure() async {
+        let mockSession = MockURLSession(success: false)
+        let viewModel = PokemonListViewModel(session: mockSession)
 
-        //XCTAssertNotNil(viewModel.errorMessage)
-        //XCTAssertTrue(viewModel.pokemonList.isEmpty)
+        try? await Task.sleep(nanoseconds: 500_000_000)
+
+        XCTAssertFalse(viewModel.isLoading)
+        XCTAssertNotNil(viewModel.errorMessage)
+        XCTAssertTrue(viewModel.pokemonList.isEmpty)
     }
 }
